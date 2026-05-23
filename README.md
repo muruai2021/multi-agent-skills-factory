@@ -2,114 +2,122 @@
 
 > 一键触发AI编辑团队，把每一个重复的业务流程，变成可复用的Skill。
 
-## 概述
+---
 
-Multi-Agent Skills Factory 是一个将企业SOP流程封装为可复用Hermes Skill的自动化工作流。通过主编调度6个专业Agent并行协作，实现从业务流程到AI技能的端到端转化。
+# English Version
 
-**核心特性：**
-- 主编智能调度，多Agent并行工作
-- 自动化评分迭代，达标（≥75分）才上线
-- 完整测试用例池，保证交付质量
+# Multi-Agent Skills Factory — Multi-Agent SOP Packaging Pipeline
 
-## 工作流程
+> One-click triggers an AI editorial team, turning every repetitive business process into a reusable Skill.
+
+## Overview
+
+Multi-Agent Skills Factory is an automated workflow that packages enterprise SOP processes into reusable Hermes Skills. Through an Editor-in-Chief orchestrating 6 specialized agents working in parallel, it achieves end-to-end transformation from business processes to AI skills.
+
+**Core Features:**
+- Editor-in-Chief intelligent scheduling, multi-agent parallel work
+- Automated scoring iteration, only goes live when score ≥75
+- Complete test suite, ensuring delivery quality
+
+## Workflow
 
 ```
-用户说"封装Skill"
+User says "package this Skill"
          ↓
-主编接收任务，解析SOP
+Editor receives task, parses SOP
          ↓
    ┌─────┴─────┐
    ↓           ↓
-研究员         设计师
-分析SOP       产出设计规格书
+ Researcher   Designer
+ analyzes SOP produces design spec
    ↓           ↓
    └─────┬─────┘
          ↓
-开发者编写SKILL.md
+ Developer writes SKILL.md
          ↓
-测试员执行测试用例
+ Tester executes test cases
          ↓
-评审员量化打分
+ Reviewer scores
          ↓
    ┌────┴────┐
    ↓         ↓
-✅ ≥75分   ❌ <75分
-注册上线    返回开发者修改
+✅ ≥75     ❌ <75
+Register   Return to developer
+上线        修改
                ↑
-         （循环直到达标）
+         (loop until qualified)
 ```
 
-## Agent团队
+## Agent Team
 
-| Agent | 输出 | 职责 |
-|-------|------|------|
-| 主编 | 任务调度+最终交付 | 解析需求、分解任务、协调Agent、组装产出 |
-| 研究员 | SOP分析报告 | 深度理解业务流程、提取关键节点、识别边界场景 |
-| 设计师 | 技能设计规格书 | 触发词设计、流程建模、输入输出定义 |
-| 开发者 | SKILL.md代码 | 按hermes-agent-skill-authoring标准编写代码 |
-| 测试员 | 测试报告 | 语法验证、功能测试、边界测试、安全测试 |
-| 评审员 | 评审报告 | 五维打分（完整性/正确性/易用性/安全性/可维护性） |
+| Agent | Output | Responsibilities |
+|-------|--------|------------------|
+| Editor-in-Chief | Task scheduling + final delivery | Parse requirements, decompose tasks, coordinate agents, assemble output |
+| Researcher | SOP analysis report | Deep understanding of business process, extract key nodes, identify edge cases |
+| Designer | Skill design specification | Trigger word design, process modeling, input/output definition |
+| Developer | SKILL.md code | Write code according to hermes-agent-skill-authoring standards |
+| Tester | Test report | Syntax verification, functional testing, boundary testing, security testing |
+| Reviewer | Review report | Five-dimensional scoring (completeness/correctness/usability/security/maintainability) |
 
-## 评审维度
+## Review Dimensions
 
-| 维度 | 分值 | 说明 |
-|------|------|------|
-| 完整性 | 20分 | 核心流程是否覆盖完整SOP |
-| 正确性 | 20分 | 输出结果是否符合hermes-agent-skill-authoring标准 |
-| 易用性 | 20分 | 触发词是否清晰、使用是否简单 |
-| 安全性 | 20分 | 是否有敏感信息泄露风险 |
-| 可维护性 | 20分 | 代码结构是否清晰、references/是否规范 |
+| Dimension | Score | Description |
+|-----------|-------|-------------|
+| Completeness | 20pts | Does the core process cover the complete SOP? |
+| Correctness | 20pts | Does the output meet hermes-agent-skill-authoring standards? |
+| Usability | 20pts | Are trigger words clear and usage simple? |
+| Security | 20pts | Any risk of sensitive information leakage? |
+| Maintainability | 20pts | Is the code structure clear, references/ organized? |
 
-**评分规则：**
-- ≥90分：优秀，直接上线
-- 75-89分：良好，小修小补后上线
-- <75分：退回开发者修改，最多6轮
+**Scoring Rules:**
+- ≥90pts: Excellent, go live directly
+- 75-89pts: Good, go live after minor fixes
+- <75pts: Return to developer for modification, max 6 rounds
 
-## 触发词
+## Trigger Words
 
-- "把这个流程封装成Skill"
-- "建一个处理XX的技能"
-- "SOP太重复了，做成自动化"
-- "把这个业务流程做成AI技能"
-- "/封装Skill [SOP描述]"
+- "把这个流程封装成Skill" / "Package this process as a Skill"
+- "建一个处理XX的技能" / "Build a skill for handling XX"
+- "SOP太重复了，做成自动化" / "SOP is too repetitive, make it automated"
+- "/封装Skill [SOP描述]" / "/packageSkill [SOP description]"
 
-**不适用于：**
-- 一次性任务（直接问AI就行）
-- 纯技术开发项目（用claude-code）
-- 已有Skill需要修改（直接patch）
+**Not suitable for:**
+- One-time tasks (just ask AI directly)
+- Pure technical development projects (use claude-code)
+- Existing Skills that need modification (just patch)
 
-## 快捷指令
+## Quick Commands
 
 ```
-/封装Skill [一句话描述SOP]
+/封装Skill [one-line SOP description]
 ```
 
-示例：`/封装Skill 客户投诉自动处理流程`
+Example: `/封装Skill 客户投诉自动处理流程` / `/packageSkill Customer complaint auto-handling process`
 
-## 目录结构
+## Directory Structure
 
 ```
 multi-agent-skills-factory/
-├── SKILL.md                    ← 主入口（主编调度）
+├── SKILL.md                    ← Main entry (Editor-in-Chief scheduling)
 └── references/
-    ├── agents.md               ← 6个Agent模板
-    ├── pipeline-multi-agent.md ← 多Agent流水线详解
-    ├── design-spec-template.md ← 设计规格书模板
-    ├── eval-dimensions.md      ← 评估维度
-    └── test_pool.md           ← 测试用例池
+    ├── agents.md               ← 6 Agent templates
+    ├── pipeline-multi-agent.md ← Multi-agent pipeline details
+    ├── design-spec-template.md ← Design specification template
+    ├── eval-dimensions.md      ← Evaluation dimensions
+    └── test_pool.md           ← Test case pool
 ```
 
-## 模板文件说明
+## Template Files
 
-| 文件 | 说明 |
-|------|------|
-| `references/agents.md` | 6个Agent的系统提示词模板 |
-| `references/pipeline-multi-agent.md` | 主编调度手册，详细说明各阶段工作 |
-| `references/design-spec-template.md` | 技能设计规格书模板 |
-| `references/eval-dimensions.md` | 评估维度与评分标准详解 |
-| `references/test_pool.md` | 测试用例池，覆盖各种场景 |
+| File | Description |
+|------|-------------|
+| `references/agents.md` | 6 Agent system prompt templates |
+| `references/pipeline-multi-agent.md` | Editor-in-Chief scheduling manual |
+| `references/design-spec-template.md` | Skill design specification template |
+| `references/eval-dimensions.md` | Evaluation dimensions and scoring criteria |
+| `references/test_pool.md` | Test case pool covering various scenarios |
 
-## 使用示例
+## Usage Examples
 
 ```
 /封装Skill 客户投诉自动处理流程
@@ -117,32 +125,32 @@ multi-agent-skills-factory/
 /封装Skill 订单退款审批流程
 ```
 
-## 常见问题
+## Common Questions
 
-**Q1：SOP太复杂怎么办？**
-A：拆成多个子Skill，研究员识别可拆分点，设计师规划模块边界。
+**Q1: What if the SOP is too complex?**
+A: Split into multiple sub-Skills. Researcher identifies split points, Designer plans module boundaries.
 
-**Q2：6个Agent都要调用吗？**
-A：简单SOP可跳过研究员/设计师并行环节，由主编直接解析。但测试员→评审员不可跳过。
+**Q2: Must all 6 agents be called?**
+A: Simple SOPs can skip the Researcher/Designer parallel phase, Editor parses directly. But Tester→Reviewer cannot be skipped.
 
-**Q3：评审<75分但已达6轮上限？**
-A：交付当前最高分版本，说明未达标原因和剩余改进空间。
+**Q3: Score <75 but reached 6-round limit?**
+A: Deliver the current highest score version, explain why targets weren't met and remaining improvement space.
 
-**Q4：与skill-factory（单Agent版）的区别？**
-A：multi-agent-skills-factory由主编调度多个专业Agent并行工作，适合复杂SOP；单Agent版适合简单SOP快速封装。
+**Q4: What's the difference from skill-factory (single-agent version)?**
+A: multi-agent-skills-factory has Editor-in-Chief orchestrating multiple specialized agents working in parallel, suitable for complex SOPs; single-agent version is for simple SOP rapid packaging.
 
-## 验证清单
+## Verification Checklist
 
-- [ ] description以"Use when"开头
-- [ ] frontmatter包含完整字段
-- [ ] references/目录包含agents.md + pipeline-multi-agent.md
-- [ ] test_pool.md命名正确
-- [ ] 主编调度流程覆盖5个专业Agent
+- [ ] description starts with "Use when"
+- [ ] frontmatter contains complete fields
+- [ ] references/ directory contains agents.md + pipeline-multi-agent.md
+- [ ] test_pool.md named correctly
+- [ ] Editor-in-Chief scheduling covers 5 professional agents
 
-## 相关Skills
+## Related Skills
 
-- `hermes-agent-skill-authoring` - Skill编写标准
-- `multi-agent-wechat` - 微信公众号内容创作
+- `hermes-agent-skill-authoring` - Skill writing standards
+- `multi-agent-wechat` - WeChat public account content creation
 
 ## License
 
