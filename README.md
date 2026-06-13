@@ -79,11 +79,27 @@ Error occurs → Logged to failure_case_log.md
 
 ### Trigger Words
 
-- "Package this process as a Skill"
-- "Build a skill for handling XX"
-- "SOP is too repetitive, make it automated"
-- `/packageSkill [SOP description]`
-- `/封装Skill [SOP description]`
+**📦 Create** — build a skill from scratch:
+- "Create a new skill for XX"
+- "Build a skill that can do XX"
+- "Develop a skill for XX"
+- "Make a new skill"
+
+**🎁 Package** — turn an existing workflow into a skill:
+- "Package this process as a skill"
+- "Turn this SOP into an AI skill"
+- "Make this repetitive workflow into an automated skill"
+- "Automate this workflow"
+
+**🎨 Design** — design a skill for a scenario:
+- "Design a skill for XX"
+- "Plan an AI skill for XX"
+- "What skill do I need for XX"
+
+**🔧 Slash commands:**
+- `/新建技能 [description]`
+- `/封装技能 [description]`
+- `/技能工厂 [description]`
 
 ### Automation Scripts
 
@@ -197,11 +213,30 @@ multi-agent-skills-factory/
 
 ### 触发词
 
-- "把这个流程封装成Skill"
-- "建一个处理XX的技能"
-- "SOP太重复了，做成自动化"
-- `/封装Skill [SOP描述]`
-- `/packageSkill [SOP description]`
+**📦 创建类** — 从零开始做技能：
+- "新建一个技能"
+- "创建一个技能来处理XX"
+- "做一个能XX的技能"
+- "搭建一个技能"
+- "开发一个新技能"
+
+**🎁 封装类** — 把已有流程变技能：
+- "把这个流程封装成技能"
+- "把这个SOP变成AI技能"
+- "把重复的工作流做成自动化技能"
+- "这个流程太重复了，做成技能"
+- "把XX流程自动化"
+
+**🎨 设计类** — 设计技能本身：
+- "设计一个技能"
+- "帮我设计个技能"
+- "规划一个AI技能"
+- "这个场景需要什么技能"
+
+**🔧 快捷指令：**
+- `/新建技能 [场景描述]`
+- `/封装技能 [SOP描述]`
+- `/技能工厂 [需求描述]`
 
 ### 自动化脚本
 
