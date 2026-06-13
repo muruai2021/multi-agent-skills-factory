@@ -1,166 +1,242 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Agent Skills Factory</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #24292e; background: #f6f8fa; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 40px; text-align: center; }
-        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
-        .header p { font-size: 1.2em; opacity: 0.9; }
-        .lang-switch { display: flex; justify-content: center; gap: 10px; padding: 20px; background: #f6f8fa; border-bottom: 1px solid #e1e4e8; }
-        .lang-btn { padding: 10px 30px; border: 2px solid #667eea; background: #fff; color: #667eea; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .lang-btn:hover { background: #667eea; color: #fff; }
-        .lang-btn.active { background: #667eea; color: #fff; }
-        .content { padding: 40px; }
-        .content[lang="en"] { display: none; }
-        h2 { color: #667eea; margin: 30px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
-        h3 { color: #333; margin: 20px 0 10px; }
-        p { margin: 15px 0; }
-        ul { margin: 15px 0; padding-left: 25px; }
-        li { margin: 8px 0; }
-        code { background: #f6f8fa; padding: 2px 6px; border-radius: 3px; font-family: Monaco, monospace; color: #e74c3c; }
-        pre { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 15px 0; font-size: 14px; }
-        pre code { background: none; color: inherit; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { border: 1px solid #e1e4e8; padding: 12px; text-align: left; }
-        th { background: #667eea; color: #fff; }
-        tr:nth-child(even) { background: #f6f8fa; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; margin: 2px; }
-        .badge-primary { background: #667eea; color: #fff; }
-        .badge-success { background: #27ae60; color: #fff; }
-        .footer { text-align: center; padding: 30px; color: #666; border-top: 1px solid #e1e4e8; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Multi-Agent Skills Factory</h1>
-            <p>多Agent协作SOP封装流水线 | Multi-Agent SOP Packaging Pipeline</p>
-        </div>
-        <div class="lang-switch">
-            <button class="lang-btn active" onclick="switchLang('zh')">中文</button>
-            <button class="lang-btn" onclick="switchLang('en')">English</button>
-        </div>
-        <div class="content" lang="zh">
-            <h2>概述</h2>
-            <p>Multi-Agent Skills Factory 是一个将企业SOP流程封装为可复用Hermes Skill的自动化工作流。通过主编调度6个专业Agent并行协作，实现从业务流程到AI技能的端到端转化。</p>
-            <h3>核心特性</h3>
-            <ul>
-                <li>主编智能调度，多Agent并行工作</li>
-                <li>自动化评分迭代，达标（≥75分）才上线</li>
-                <li>完整测试用例池，保证交付质量</li>
-            </ul>
-            <h2>Agent团队</h2>
-            <table>
-                <tr><th>Agent</th><th>输出</th><th>职责</th></tr>
-                <tr><td>主编</td><td>任务调度+最终交付</td><td>解析需求、分解任务、协调Agent、组装产出</td></tr>
-                <tr><td>研究员</td><td>SOP分析报告</td><td>深度理解业务流程、提取关键节点、识别边界场景</td></tr>
-                <tr><td>设计师</td><td>技能设计规格书</td><td>触发词设计、流程建模、输入输出定义</td></tr>
-                <tr><td>开发者</td><td>SKILL.md代码</td><td>按hermes-agent-skill-authoring标准编写代码</td></tr>
-                <tr><td>测试员</td><td>测试报告</td><td>语法验证、功能测试、边界测试、安全测试</td></tr>
-                <tr><td>评审员</td><td>评审报告</td><td>五维打分（完整性/正确性/易用性/安全性/可维护性）</td></tr>
-            </table>
-            <h2>评审维度</h2>
-            <table>
-                <tr><th>维度</th><th>分值</th><th>说明</th></tr>
-                <tr><td>完整性</td><td>20分</td><td>核心流程是否覆盖完整SOP</td></tr>
-                <tr><td>正确性</td><td>20分</td><td>输出结果是否符合hermes-agent-skill-authoring标准</td></tr>
-                <tr><td>易用性</td><td>20分</td><td>触发词是否清晰、使用是否简单</td></tr>
-                <tr><td>安全性</td><td>20分</td><td>是否有敏感信息泄露风险</td></tr>
-                <tr><td>可维护性</td><td>20分</td><td>代码结构是否清晰、references/是否规范</td></tr>
-            </table>
-            <h2>评分规则</h2>
-            <ul>
-                <li><span class="badge badge-success">≥90分</span> 优秀，直接上线</li>
-                <li><span class="badge badge-primary">75-89分</span> 良好，小修小补后上线</li>
-                <li><span class="badge badge-primary"><75分</span> 退回开发者修改，最多6轮</li>
-            </ul>
-            <h2>触发词</h2>
-            <ul>
-                <li>"把这个流程封装成Skill"</li>
-                <li>"建一个处理XX的技能"</li>
-                <li>"SOP太重复了，做成自动化"</li>
-                <li><code>/封装Skill [SOP描述]</code></li>
-            </ul>
-            <h2>目录结构</h2>
-            <pre><code>multi-agent-skills-factory/
-├── SKILL.md
+# Multi-Agent Skills Factory
+
+[English](#english) · [中文](#中文)
+
+---
+
+## English
+
+### Overview
+
+**Multi-Agent Skills Factory** packages enterprise SOP processes into reusable Hermes Skills through a 7-agent parallel pipeline. Skills self-improve after launch — errors trigger automatic reflection and iteration.
+
+### Core Features
+
+- **7-Agent pipeline**: Editor-in-Chief → Researcher + Designer (parallel) → Developer → Tester → Reviewer → Iteration Optimizer
+- **Score-gated launch**: Skill only goes live when ≥75/100 on five-dimensional review
+- **Self-improving**: Built-in failure case log → self-review → SKILL.md update → regression testing
+- **5 automation scripts**: validate / aggregate / package / run-loop / analyze-failures
+- **+10 bonus points**: Self-iteration mechanism earns up to 10 extra points at review
+
+### Agent Team
+
+| Agent | Output | Responsibilities |
+|-------|--------|------------------|
+| Editor-in-Chief | Task scheduling + final delivery | Parse requirements, decompose tasks, coordinate agents, assemble output |
+| Researcher | SOP analysis report | Deep understanding of business process, extract key nodes, identify edge cases |
+| Designer | Skill design specification | Trigger word design, process modeling, input/output definition |
+| Developer | SKILL.md code | Write code according to hermes-agent-skill-authoring standards |
+| Tester | Test report | Syntax, functional, boundary, and security testing |
+| Reviewer | Review report + grading.json | Five-dimensional scoring + self-iteration bonus |
+| Iteration Optimizer | Failure analysis + improvement plan | Analyze failure_case_log.md, identify error patterns, drive self-improvement |
+
+### Review Dimensions
+
+| Dimension | Weight | Description |
+|-----------|--------|-------------|
+| Completeness | 25% | Does the core process cover the complete SOP? |
+| Correctness | 25% | Does the output meet hermes-agent-skill-authoring standards? |
+| Usability | 20% | Are trigger words clear and usage simple? |
+| Security | 20% | Any risk of sensitive information leakage? |
+| Maintainability | 10% | Is the code structure clear, references/ organized? |
+| **Self-Iteration Bonus** | **+10** | Error log + self-review + regression tests |
+
+**Scoring Rules:**
+- **≥90pts** Excellent — go live directly
+- **75-89pts** Good — go live after minor fixes
+- **<75pts** Return to developer, max 6 rounds
+
+### Self-Improvement Mechanism
+
+Generated skills have a built-in self-improvement loop that runs continuously after launch:
+
+**Error Logging** → `references/failure_case_log.md`
+Every usage error is recorded: trigger word, wrong output, expected output, root cause analysis.
+
+**Self-Review Triggers** (any one):
+- ≥5 unfixed errors in the log → auto-trigger iteration
+- Same trigger word fails ≥3 times → immediate fix required
+- User runs `/skill-xxx self-review`
+
+**Iteration Flow:**
+```
+Error occurs → Logged to failure_case_log.md
+                    ↓
+         ≥5 unfixed OR recurring?
+                    ↓ yes
+         Iteration Optimizer Agent analyzes log
+                    ↓
+         generate P0/P1/P2 improvement plan
+                    ↓
+         Developer updates SKILL.md
+                    ↓
+         Tester runs regression tests
+                    ↓
+         Reviewer re-scores (checks self-iteration bonus)
+                    ↓
+         Pass → version bump → regression pool +1
+```
+
+### Trigger Words
+
+- "Package this process as a Skill"
+- "Build a skill for handling XX"
+- "SOP is too repetitive, make it automated"
+- `/packageSkill [SOP description]`
+- `/封装Skill [SOP description]`
+
+### Automation Scripts
+
+| Script | When to Run |
+|--------|-------------|
+| `scripts/validate_skill.py <SKILL.md>` | After Developer writes SKILL.md, before Test |
+| `scripts/aggregate_score.py <iteration-dir>` | After each iteration completes |
+| `scripts/package_skill.py <skill-dir>` | After Reviewer scores ≥75 |
+| `scripts/run_loop.py <skill-name> <max-rounds>` | To control full iteration loop |
+| `scripts/analyze_failures.py <skill-dir> --auto` | Check if self-iteration should trigger |
+| `scripts/analyze_failures.py <skill-dir> --regression` | Generate regression test cases |
+| `scripts/analyze_failures.py <skill-dir> --suggest` | Generate P0/P1/P2 improvement suggestions |
+
+### Directory Structure
+
+```
+multi-agent-skills-factory/
+├── SKILL.md                      ← Main entry (Editor-in-Chief)
+├── scripts/
+│   ├── __init__.py
+│   ├── validate_skill.py         ← SKILL.md auto-validator (8 checks)
+│   ├── aggregate_score.py        ← Multi-round review aggregator
+│   ├── package_skill.py          ← Pack + update registry.yaml
+│   ├── run_loop.py               ← Iteration loop controller (max 6 rounds)
+│   └── analyze_failures.py       ← Error log analyzer (auto/suggest/regression)
 └── references/
-    ├── agents.md
-    ├── pipeline-multi-agent.md
-    ├── design-spec-template.md
-    ├── eval-dimensions.md
-    └── test_pool.md</code></pre>
-        </div>
-        <div class="content" lang="en">
-            <h2>Overview</h2>
-            <p>Multi-Agent Skills Factory is an automated workflow that packages enterprise SOP processes into reusable Hermes Skills. Through an Editor-in-Chief orchestrating 6 specialized agents working in parallel, it achieves end-to-end transformation from business processes to AI skills.</p>
-            <h3>Core Features</h3>
-            <ul>
-                <li>Editor-in-Chief intelligent scheduling, multi-agent parallel work</li>
-                <li>Automated scoring iteration, only goes live when score ≥75</li>
-                <li>Complete test suite, ensuring delivery quality</li>
-            </ul>
-            <h2>Agent Team</h2>
-            <table>
-                <tr><th>Agent</th><th>Output</th><th>Responsibilities</th></tr>
-                <tr><td>Editor-in-Chief</td><td>Task scheduling + final delivery</td><td>Parse requirements, decompose tasks, coordinate agents, assemble output</td></tr>
-                <tr><td>Researcher</td><td>SOP analysis report</td><td>Deep understanding of business process, extract key nodes, identify edge cases</td></tr>
-                <tr><td>Designer</td><td>Skill design specification</td><td>Trigger word design, process modeling, input/output definition</td></tr>
-                <tr><td>Developer</td><td>SKILL.md code</td><td>Write code according to hermes-agent-skill-authoring standards</td></tr>
-                <tr><td>Tester</td><td>Test report</td><td>Syntax verification, functional testing, boundary testing, security testing</td></tr>
-                <tr><td>Reviewer</td><td>Review report</td><td>Five-dimensional scoring (completeness/correctness/usability/security/maintainability)</td></tr>
-            </table>
-            <h2>Review Dimensions</h2>
-            <table>
-                <tr><th>Dimension</th><th>Score</th><th>Description</th></tr>
-                <tr><td>Completeness</td><td>20pts</td><td>Does the core process cover the complete SOP?</td></tr>
-                <tr><td>Correctness</td><td>20pts</td><td>Does the output meet hermes-agent-skill-authoring standards?</td></tr>
-                <tr><td>Usability</td><td>20pts</td><td>Are trigger words clear and usage simple?</td></tr>
-                <tr><td>Security</td><td>20pts</td><td>Any risk of sensitive information leakage?</td></tr>
-                <tr><td>Maintainability</td><td>20pts</td><td>Is the code structure clear, references/ organized?</td></tr>
-            </table>
-            <h2>Scoring Rules</h2>
-            <ul>
-                <li><span class="badge badge-success">≥90pts</span> Excellent, go live directly</li>
-                <li><span class="badge badge-primary">75-89pts</span> Good, go live after minor fixes</li>
-                <li><span class="badge badge-primary"><75pts</span> Return to developer, max 6 rounds</li>
-            </ul>
-            <h2>Trigger Words</h2>
-            <ul>
-                <li>"Package this process as a Skill"</li>
-                <li>"Build a skill for handling XX"</li>
-                <li>"SOP is too repetitive, make it automated"</li>
-                <li><code>/packageSkill [SOP description]</code></li>
-            </ul>
-            <h2>Directory Structure</h2>
-            <pre><code>multi-agent-skills-factory/
-├── SKILL.md
+    ├── agents.md                 ← 7 agent templates (incl. Iteration Optimizer)
+    ├── pipeline-multi-agent.md   ← Full pipeline guide for Editor-in-Chief
+    ├── design-spec-template.md   ← Skill design spec template
+    ├── eval-dimensions.md        ← Five dimensions + self-iteration bonus
+    ├── test_pool.md              ← Test case pool (TC-SYNTAX/TC-FUNC/TC-BOUND/TC-SEC)
+    ├── failure_case_log.md        ← Error case log (self-improvement core)
+    └── self-review-template.md   ← Self-review flow template
+```
+
+---
+
+## 中文
+
+### 概述
+
+**Multi-Agent Skills Factory** 通过 7 个专业 Agent 并行协作，将企业 SOP 流程封装为可复用的 Hermes Skill。上线后技能自动持续迭代——每一次错误都会触发自我复盘和增量更新。
+
+### 核心特性
+
+- **7个Agent流水线**：主编 → 研究员+设计师（并行）→ 开发者 → 测试员 → 评审员 → 迭代优化Agent
+- **评分上线门控**：五维打分 <75 分不能上线，最多循环 6 轮
+- **自我迭代**：错误日志 → 自我复盘 → SKILL.md 更新 → 回归测试
+- **5 个自动化脚本**：验证/聚合/打包/循环/错误分析
+- **评审加分项**：自我迭代机制运作良好可获得最高 +10 分加分
+
+### Agent 团队
+
+| Agent | 输出 | 职责 |
+|-------|------|------|
+| 主编 | 任务调度+最终交付 | 解析需求、分解任务、协调Agent、组装产出 |
+| 研究员 | SOP分析报告 | 深度理解业务流程、提取关键节点、识别边界场景 |
+| 设计师 | 技能设计规格书 | 触发词设计、流程建模、输入输出定义 |
+| 开发者 | SKILL.md代码 | 按 hermes-agent-skill-authoring 标准编写代码 |
+| 测试员 | 测试报告 | 语法验证、功能测试、边界测试、安全测试 |
+| 评审员 | 评审报告+grading.json | 五维打分 + 自我迭代加分 |
+| 迭代优化Agent | 错误分析+改进计划 | 分析 failure_case_log.md，识别错误模式，推动自我迭代 |
+
+### 评审维度
+
+| 维度 | 权重 | 说明 |
+|------|------|------|
+| 完整性 | 25% | 核心流程是否覆盖完整SOP |
+| 正确性 | 25% | 输出是否符合 hermes-agent-skill-authoring 标准 |
+| 易用性 | 20% | 触发词是否清晰、使用是否简单 |
+| 安全性 | 20% | 是否有敏感信息泄露风险 |
+| 可维护性 | 10% | 代码结构是否清晰、references/ 是否规范 |
+| **自我迭代加分** | **+10** | 错误日志 + 自我复盘 + 回归测试池 |
+
+### 评分规则
+
+- **≥90分** 优秀，直接上线
+- **75-89分** 良好，小修小补后上线
+- **<75分** 退回开发者修改，最多 6 轮
+
+### 自我迭代机制
+
+生成的技能具备上线后持续自我进化的能力：
+
+**错误案例日志** → `references/failure_case_log.md`
+每次使用出现错误时记录：触发词 | 错误输出 | 正确预期 | 根因分析
+
+**迭代触发条件**（满足任一）：
+- 未修复错误 ≥ 5 条 → 自动触发复盘
+- 同一触发词出错 ≥ 3 次 → 立即修复复发性错误
+- 用户手动 `/skill-xxx self-review` → 主编调度复盘流程
+
+**迭代流程：**
+```
+错误发生 → 记录到 failure_case_log.md
+                    ↓
+         ≥5条未修复 或 复发性错误？
+                    ↓ 是
+         主编调度迭代优化Agent分析日志
+                    ↓
+         生成 P0/P1/P2 改进建议
+                    ↓
+         开发者更新 SKILL.md
+                    ↓
+         测试员执行回归测试
+                    ↓
+         评审员复评（检查自我迭代加分）
+                    ↓
+         通过 → 版本号升级 +1，回归测试池 +1
+```
+
+### 触发词
+
+- "把这个流程封装成Skill"
+- "建一个处理XX的技能"
+- "SOP太重复了，做成自动化"
+- `/封装Skill [SOP描述]`
+- `/packageSkill [SOP description]`
+
+### 自动化脚本
+
+| 脚本 | 用途 |
+|------|------|
+| `scripts/validate_skill.py <SKILL.md>` | 开发者提交前自检（8项检查） |
+| `scripts/aggregate_score.py <iteration-dir>` | 聚合多轮评审分数，生成 benchmark |
+| `scripts/package_skill.py <skill-dir>` | 打包技能并更新 registry.yaml |
+| `scripts/run_loop.py <skill-name> <max-rounds>` | 控制迭代循环（最多6轮） |
+| `scripts/analyze_failures.py <skill-dir> --auto` | 检测是否触发自我迭代（≥5条=触发） |
+| `scripts/analyze_failures.py <skill-dir> --regression` | 生成回归测试用例 |
+| `scripts/analyze_failures.py <skill-dir> --suggest` | 生成优先级改进建议（P0/P1/P2） |
+
+### 目录结构
+
+```
+multi-agent-skills-factory/
+├── SKILL.md                      ← 主入口（主编调度）
+├── scripts/
+│   ├── __init__.py
+│   ├── validate_skill.py         ← SKILL.md 自动验证（8项检查）
+│   ├── aggregate_score.py       ← 多轮评审分数聚合
+│   ├── package_skill.py          ← 打包 + 更新 registry.yaml
+│   ├── run_loop.py               ← 迭代循环控制（最多6轮）
+│   └── analyze_failures.py       ← 错误日志分析（自动迭代检测/回归测试/改进建议）
 └── references/
-    ├── agents.md
-    ├── pipeline-multi-agent.md
-    ├── design-spec-template.md
-    ├── eval-dimensions.md
-    └── test_pool.md</code></pre>
-        </div>
-        <div class="footer">
-            <p>Multi-Agent Skills Factory | MIT License</p>
-        </div>
-    </div>
-    <script>
-        function switchLang(lang) {
-            document.querySelectorAll('.content').forEach(el => {
-                el.style.display = el.getAttribute('lang') === lang ? 'block' : 'none';
-            });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-    </script>
-</body>
-</html>
+    ├── agents.md                 ← 7个Agent模板（含迭代优化Agent）
+    ├── pipeline-multi-agent.md   ← 主编调度手册（含上线后自我迭代流程图）
+    ├── design-spec-template.md   ← 技能设计规格书模板
+    ├── eval-dimensions.md        ← 五维评估 + 自我迭代加分规则
+    ├── test_pool.md              ← 测试用例池（TC-SYNTAX/TC-FUNC/TC-BOUND/TC-SEC）
+    ├── failure_case_log.md        ← 错误案例日志（自我迭代核心）
+    └── self-review-template.md   ← 自我复盘流程模板
+```
+
+---
+
+MIT License
