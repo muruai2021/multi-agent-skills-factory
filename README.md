@@ -8,7 +8,7 @@
 
 ### Overview
 
-**Multi-Agent Skills Factory** packages enterprise SOP processes into reusable Hermes Skills through a 7-agent parallel pipeline. Skills self-improve after launch — errors trigger automatic reflection and iteration.
+**Multi-Agent Skills Factory** packages enterprise SOP processes into reusable AI Skills through a 7-agent parallel pipeline. Skills self-improve after launch — errors trigger automatic reflection and iteration.
 
 ### Core Features
 
@@ -125,7 +125,7 @@ multi-agent-skills-factory/
 
 ### 概述
 
-**Multi-Agent Skills Factory** 通过 7 个专业 Agent 并行协作，将企业 SOP 流程封装为可复用的 Hermes Skill。上线后技能自动持续迭代——每一次错误都会触发自我复盘和增量更新。
+**Multi-Agent Skills Factory** 通过 7 个专业 Agent 并行协作，将企业 SOP 流程封装为可复用的 AI Skill。上线后技能自动持续迭代——每一次错误都会触发自我复盘和增量更新。
 
 ### 核心特性
 
